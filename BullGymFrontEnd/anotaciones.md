@@ -1,0 +1,1 @@
+- he probado pasar por parametros el addExercise para que me actualice la lista de ejercicios a la hora de crear y modificar un ejercico y tampoco me funciona, solo cuando recargo la página
