@@ -6,11 +6,11 @@ import { Loading } from "./Loading";
 import { ErrorMessage } from "./ErrorMessage";
 import { getAllExercisesService } from "../services";
 
-export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
+export const ModifyExercise = ({ setExercises, setSelected, selected }) => {
   const navigate = useNavigate();
   const { idExercise } = useParams();
   const { token, role } = useContext(AuthContext);
-  const { exercise, loading, error } = useExercises(idExercise);
+  const { loading, error } = useExercises(idExercise);
   const [modifyError, setModifyError] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -31,18 +31,12 @@ export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
           body: data,
         }
       );
-      //vuelvo a hacer la peticion para poder actualizar el estado de exercise
+      //vuelvo a realizar la peticion para poder actualizar el estado de exercise
       const exercise = await getAllExercisesService(token);
 
       //seteo el estado de Exercise y el selected
       setExercises(exercise);
       setSelected(false);
-      /*  const json = await response.json();
-      console.log(json.exerciseUpload); */
-      //CON ESTO COJO LOS DATOS EL EJERCICO MODIFICADO, PERO NO SE ACTUALIZA EN EL STATE PRINCIPAL Y SE DUPLICA EL
-      //EJERCICO CON MISMO ID, USANDO EL ADDEXERCISE
-      /* const exercise = json.exerciseUpload; */
-      /* addExercise(exercise); */
 
       if (!response.ok) {
         setModifyError("Error modificando ejercicio");
@@ -58,8 +52,6 @@ export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error.message} />;
 
-  const ex = exercise?.exercise[0];
-
   return role === "admin" ? (
     <section className="modificarSection">
       <form onSubmit={handleForm} className="formulario">
@@ -72,13 +64,13 @@ export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
             id="name"
             name="name"
             required
-            defaultValue={ex?.name}
+            defaultValue={selected?.name}
           ></input>
         </fieldset>
         <fieldset>
           <label htmlFor="type">tipo</label>
 
-          <select id="type" name="type" required defaultValue={ex?.type}>
+          <select id="type" name="type" required defaultValue={selected?.type}>
             <option value="cardio">Cardio</option>
             <option value="sala de musculación">Sala de Musculación</option>
           </select>
@@ -90,7 +82,7 @@ export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
             id="muscle_group"
             name="muscle_group"
             required
-            defaultValue={ex?.muscle_group}
+            defaultValue={selected?.muscle_group}
           ></input>
         </fieldset>
         <fieldset>
@@ -100,17 +92,20 @@ export const ModifyExercise = ({ addExercise, setExercises, setSelected }) => {
             id="description"
             name="description"
             required
-            defaultValue={ex?.description}
+            defaultValue={selected?.description}
           ></input>
         </fieldset>
         <fieldset>
-          {ex?.image ? (
+          {selected?.image ? (
             <>
               <p>imagen actual:</p>
               <figure>
                 <img
-                  src={`${process.env.REACT_APP_BACKEND}/uploads/${ex.image}`}
-                  alt={ex.name}
+                  className="imageModificar"
+                  src={`${process.env.REACT_APP_BACKEND}/uploads/${selected.image}`}
+                  alt={selected.name}
+                  width="175px"
+                  height="175px"
                 />
               </figure>
             </>

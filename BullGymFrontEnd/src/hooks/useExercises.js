@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { getAllExercisesService } from "../services";
 import { AuthContext } from "../context/AuthContext";
 
@@ -9,12 +9,15 @@ export const useExercises = (id) => {
   const [filter, setFilter] = useState("");
   const [selected, setSelected] = useState(null);
   const { token } = useContext(AuthContext);
+  const [type, setType] = useState("");
+  const [group, setGroup] = useState("");
 
+  //useEffect para inicializar la llamada al backend y obtener el listado de ejercicios
+  // a la hora de abrir la página
   useEffect(() => {
     const loadExercises = async () => {
-      //proyecto antiguo no tengo token, lo quito para probar
       try {
-        const data = await getAllExercisesService(token);
+        const data = await getAllExercisesService(type, group, token);
 
         setExercises(data);
       } catch (error) {
@@ -25,9 +28,16 @@ export const useExercises = (id) => {
     };
 
     loadExercises();
-  }, [token]);
+  }, [type, group, token]);
 
-  // Event handler del filtro
+  const handleType = useCallback((type) => {
+    setType(type);
+  }, []);
+
+  const handleGroup = useCallback((group) => {
+    setGroup(group);
+  }, []);
+
   const handleFilter = (e) => {
     setFilter(e.target.value);
   };
@@ -40,15 +50,7 @@ export const useExercises = (id) => {
     setExercises([exercise, ...exercises]);
     setSelected(false);
   };
-  /* CON ESTO SOLO CONSIGO METER EL EJERCICIO ACTUALIZADO, PERO SIGUE QUEDANDO EL ANTIGUO HASTA QUE SE REFRESCA
-LA PÁGINA Y ME DA UN ERROR EN CONSOLA
-  const uploadExercise = (exercise) => {
-    setExercises([exercise, ...exercises]);
-    console.log(exercises);
-    exercises.slice(0, 1);
-    setSelected(false);
-  };
- */
+
   const removeExercise = (id) => {
     setExercises(exercises.filter((exercise) => exercise.id !== id));
     setSelected(false);
@@ -69,7 +71,6 @@ LA PÁGINA Y ME DA UN ERROR EN CONSOLA
       })
     );
   };
-
   const favExercise = (id) => {
     setSelected({
       ...selected,
@@ -99,6 +100,9 @@ LA PÁGINA Y ME DA UN ERROR EN CONSOLA
     setSelected,
     likeExercise,
     favExercise,
-    /* uploadExercise, */
+    type,
+    group,
+    setType,
+    setGroup,
   };
 };

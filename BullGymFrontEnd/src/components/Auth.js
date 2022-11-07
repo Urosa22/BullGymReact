@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+//Creamos este componente principal para alojar los botones del header
 
 export const Auth = () => {
+  //Importamos desde authcontext aquello que necesitamos para el login y saber
+  //que botones mostar según el rol
   const { user, role, logout } = useContext(AuthContext);
 
   return user ? (

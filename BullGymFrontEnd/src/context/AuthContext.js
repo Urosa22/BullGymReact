@@ -25,7 +25,7 @@ export const AuthContextProviderComponent = ({ children }) => {
 
     if (token) getUserData();
   }, [token, setToken]);
-
+  //Creo la constate role para poder importarla y utilizarla a conveniencia
   const role = user ? user.role : null;
 
   const logout = () => {

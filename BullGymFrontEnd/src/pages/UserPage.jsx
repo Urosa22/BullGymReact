@@ -2,43 +2,20 @@ import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useExercises } from "../hooks/useExercises";
-import { useEffect } from "react";
-import { addFavoriteService } from "../services";
+import { Buttons } from "../components/Buttons";
+import { Exercise } from "../components/Exercise";
 
-export const UserPage = () => {
+export const UserPage = ({
+  addExercise,
+  removeExercise,
+  likeExercise,
+  favExercise,
+  selected,
+}) => {
   const { exercises } = useExercises();
   console.log(exercises);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  //useEffect para los likes
-  /*    useEffect(() => {
-    exercises?.likedByMe ? setLike(true) : setLike(false);
-  }, [exercises]);
-
-  const handleLikeButton = async () => {
-    try {
-      await likeExerciseService(exercises.id, token);
-
-      likeExercise(exercises.id);
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  //useEffect para los favs
-  useEffect(() => {
-    exercises?.favsByMe ? setFavs(true) : setFavs(false);
-  }, [exercises]);
-
-  const handleFavsButton = async () => {
-    try {
-      await addFavoriteService(exercises.id, token);
-      favExercise(exercises.id);
-      console.log(favs);
-    } catch (error) {
-      setError(error.message);
-    }
-  }; */
 
   return user ? (
     <>
@@ -68,6 +45,13 @@ export const UserPage = () => {
                 <p>
                   Creado el {new Date(exercises.createdAt).toLocaleString()}
                 </p>
+                <Buttons
+                  exercises={exercises}
+                  addExercise={addExercise}
+                  removeExercise={removeExercise}
+                  likeExercise={likeExercise}
+                  favExercise={favExercise}
+                ></Buttons>
               </section>
             ) : null;
           })}

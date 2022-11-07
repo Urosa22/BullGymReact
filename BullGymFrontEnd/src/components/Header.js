@@ -7,7 +7,7 @@ export const Header = () => {
       <Link className="Link" to={"/"}>
         {" "}
         <div className="bull"></div>
-        <p>Página principal</p>
+        <p className="paginaPrincipal">Página principal</p>
       </Link>
 
       <nav className="navBotones">

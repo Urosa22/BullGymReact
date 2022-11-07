@@ -1,10 +1,17 @@
 //proyecto antiguo no tengo el token, lo quito para probar
-export const getAllExercisesService = async (token) => {
-  const response = await fetch(`${process.env.REACT_APP_BACKEND}/exercises`, {
-    headers: {
-      Authorization: token,
-    },
-  });
+export const getAllExercisesService = async (
+  type = "",
+  muscle_group = "",
+  token
+) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_BACKEND}/exercises?type=${type}&muscle_group=${muscle_group}`,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
 
   const json = await response.json();
   if (!response.ok) {

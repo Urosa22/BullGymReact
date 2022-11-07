@@ -63,9 +63,9 @@ export const RegisterPage = () => {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button>Regístrate</button>
-          {error ? <p>{error}</p> : null}
         </fieldset>
+        <button>Regístrate</button>
+        {error ? <p>{error}</p> : null}
       </form>
     </section>
   );

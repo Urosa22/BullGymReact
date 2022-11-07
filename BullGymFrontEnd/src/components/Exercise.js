@@ -12,10 +12,15 @@ export const Exercise = memo(
     const [like, setLike] = useState(undefined);
     const [favs, setFavs] = useState(undefined);
     const [error, setError] = useState("");
-    //useEffect para los likes
+
+    //useEffect para los likes,donde, en caso de existir exercises, seteamos like a true o false, dependiendo su estado actual
+    //para que así pueda cambiar(más abajo) el background_image
     useEffect(() => {
       exercises?.likedByMe ? setLike(true) : setLike(false);
     }, [exercises]);
+
+    //Creamos la función manejadora que estará presente en el botón de like para agregar o quitar el like
+    //En la cual realizamos una petición al backend
 
     const handleLikeButton = async () => {
       try {
@@ -27,10 +32,12 @@ export const Exercise = memo(
       }
     };
 
-    //useEffect para los favs
+    //useEffect para los favs, mismo funcionamiento que los likes
     useEffect(() => {
       exercises?.favsByMe ? setFavs(true) : setFavs(false);
     }, [exercises]);
+
+    //Creamos Una misma función para los favoritos
 
     const handleFavsButton = async () => {
       try {
@@ -42,7 +49,7 @@ export const Exercise = memo(
       }
     };
     //Con esta función borramos los ejercicios y el remove es para que al isntante
-    // se actualice
+    // se actualice la  lista de ejercicios
     const deleteExercise = async (id) => {
       try {
         await deleteExerciseService(id, token);
@@ -61,8 +68,8 @@ export const Exercise = memo(
               <img
                 src={`${process.env.REACT_APP_BACKEND}/uploads/${exercises.image}`}
                 alt={exercises.description}
-                width="400px"
-                height="400px"
+                width="275px"
+                height="275px"
               ></img>
             ) : null}
             <h3>Tipo: {exercises.type}</h3>{" "}
@@ -101,7 +108,7 @@ export const Exercise = memo(
         </section>
       </output>
     ) : (
-      <p>Por favor elige un ejercicio</p>
+      <p className="porFavor">Por favor, selecione un ejercicio.</p>
     );
   }
 );

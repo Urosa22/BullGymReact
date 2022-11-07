@@ -28,6 +28,10 @@ function App() {
     addExercise,
     setExercises,
     setSelected,
+    group,
+    setGroup,
+    type,
+    setType,
   } = useExercises();
   return (
     <main className="App">
@@ -48,15 +52,38 @@ function App() {
               exercises={exercises}
               favExercise={favExercise}
               addExercise={addExercise}
+              group={group}
+              setGroup={setGroup}
+              type={type}
+              setType={setType}
             />
           }
         />
+        {/* { exercises, removeExercise, likeExercise, favExercise } */}
         <Route path="/users" element={<RegisterPage />} />
         <Route path="/users/login" element={<LoginPage />} />
-        <Route path="/users/:id" element={<UserPage exercises={exercises} />} />
+        <Route
+          path="/users/:id"
+          element={
+            <UserPage
+              exercises={exercises}
+              addExercise={addExercise}
+              removeExercise={removeExercise}
+              likeExercise={likeExercise}
+              favExercise={favExercise}
+            />
+          }
+        />
         <Route
           path="/exercises"
-          element={<NewExercise addExercise={addExercise} />}
+          element={
+            <NewExercise
+              addExercise={addExercise}
+              removeExercise={removeExercise}
+              likeExercise={likeExercise}
+              favExercise={favExercise}
+            />
+          }
         />
         <Route
           path="/exercises/:idExercise/edit"
@@ -65,6 +92,7 @@ function App() {
               addExercise={addExercise}
               setExercises={setExercises}
               setSelected={setSelected}
+              selected={selected}
             />
           }
         />
