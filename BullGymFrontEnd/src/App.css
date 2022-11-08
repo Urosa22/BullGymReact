@@ -379,4 +379,15 @@ select {
     width: 300px;
     max-height: 100%;
   }
+  .userPage {
+    font-size: 15px;
+  }
+  .articleFavs {
+    grid-template-columns: 1fr 1fr;
+    font-size: 10px;
+  }
+  .Exercise img {
+    width: 125px;
+    height: 125px;
+  }
 }

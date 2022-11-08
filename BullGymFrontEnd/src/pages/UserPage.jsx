@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useExercises } from "../hooks/useExercises";
 import { Buttons } from "../components/Buttons";
-import { Exercise } from "../components/Exercise";
+/* import { Exercise } from "../components/Exercise"; */
 
 export const UserPage = ({
   addExercise,
